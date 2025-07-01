@@ -17,7 +17,9 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
+    "email": "hello@gmail.com",
+    "isValid": true,
+    message: 'Valid email format',
   });
 });
 
