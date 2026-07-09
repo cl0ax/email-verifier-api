@@ -5,7 +5,7 @@ A lightweight, fast, and easy-to-use API for validating email addresses by forma
 ---
 
 ## 🚀 Live Demo (Coming Soon)
-> Deployment in progress — this will point to Vercel or RapidAPI once deployed.
+> Deployment in progress - this will point to Vercel or RapidAPI once deployed.
 
 ---
 
@@ -79,10 +79,10 @@ Then visit:
 
 ## 📄 License
 
-MIT — free to use, modify, and deploy.
+MIT - free to use, modify, and deploy.
 
 ---
 
 ## ✨ Author
 
-Made by cl0ax — open to feedback, PRs, and good vibes.
+Made by cl0ax - open to feedback, PRs, and good vibes.
