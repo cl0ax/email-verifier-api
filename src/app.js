@@ -17,9 +17,9 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({
-    "email": "hello@gmail.com",
-    "isValid": true,
-    message: 'Valid email format',
+    name: 'Email Domain Verifier API',
+    endpoint: '/api/validate-email?email=name@example.com',
+    deployed: false,
   });
 });
 

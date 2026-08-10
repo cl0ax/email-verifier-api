@@ -1,88 +1,69 @@
-# 📧 Email Verifier API
+# Email Domain Verifier API
 
-A lightweight, fast, and easy-to-use API for validating email addresses by format.
+This local Express API checks an email address in two steps:
 
----
+1. Validate its basic syntax.
+2. Resolve the domain's DNS MX records.
 
-## 🚀 Live Demo (Coming Soon)
-> Deployment in progress - this will point to Vercel or RapidAPI once deployed.
+It does not prove that a mailbox exists, send verification mail, or connect to a mail server. The API is not deployed as a public service.
 
----
+## Endpoint
 
-## ✅ What It Does
+```text
+GET /api/validate-email?email=name@example.com
+```
 
-This API checks whether an email is **syntactically valid** (RFC-compliant format) using regular expressions.
+An address with valid syntax and MX records returns:
 
-Future updates may include:
-- MX record/domain validation
-- API key gating
-- Usage tracking and monetization (RapidAPI)
-
----
-
-## 🔧 Endpoint
-
-### `GET /api/validate-email`
-
-**Query Parameters:**
-
-| Param   | Required | Description                    |
-|---------|----------|--------------------------------|
-| `email` | ✅ Yes    | The email address to validate |
-
----
-
-**Example Request:**  
-`GET http://localhost:5000/api/validate-email?email=hello@gmail.com`
-
-**Successful Response:**
 ```json
 {
-  "email": "hello@gmail.com",
+  "email": "name@example.com",
+  "domain": "example.com",
+  "formatValid": true,
+  "domainHasMx": true,
   "isValid": true,
-  "message": "✅ Valid email format"
+  "mxRecords": [
+    { "exchange": "mail.example.com", "priority": 10 }
+  ],
+  "message": "Valid format and MX records found"
 }
 ```
 
-**Error Response:**
-```json
-{
-  "success": false,
-  "error": "Missing email parameter"
-}
-```
+`isValid` means only that the syntax passed and the domain published at least one MX record.
 
----
+Missing `email` parameters return HTTP 400. Invalid syntax and domains without MX records return HTTP 200 with `isValid: false` so clients receive the same response shape for completed checks. Unexpected DNS failures go through the Express error handler.
 
-## 🛠 Tech Stack
-
-- Node.js  
-- Express.js  
-- CORS, Helmet, Morgan  
-- Regex-based email validation  
-
----
-
-## 📦 Installation
+## Run locally
 
 ```bash
-git clone https://github.com/cl0ax/email-verifier-api.git
-cd email-verifier-api
 npm install
-npm run dev
+npm start
 ```
 
-Then visit:  
-`http://localhost:5000/api/validate-email?email=your@email.com`
+The server listens on port 5000 by default:
 
----
+```bash
+curl 'http://localhost:5000/api/validate-email?email=hello@gmail.com'
+```
 
-## 📄 License
+Set `PORT` to use another port.
 
-MIT - free to use, modify, and deploy.
+## Test
 
----
+```bash
+npm test -- --runInBand
+```
 
-## ✨ Author
+The automated tests mock DNS results for repeatability. Live results depend on the machine's DNS resolver and the domain's current MX records.
 
-Made by cl0ax - open to feedback, PRs, and good vibes.
+## Stack
+
+- Node.js
+- Express
+- `node:dns` promises API
+- CORS, Helmet, and Morgan
+- Jest and Supertest
+
+## Origin
+
+This repository began from the `express-api-starter` scaffold. The API routes, verification behavior, tests, metadata, and documentation have been adapted for this project. The original scaffold's MIT copyright is retained in `LICENSE`.
