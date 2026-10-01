@@ -8,7 +8,7 @@
   <a href="#features">Features</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#how-it-works">How it works</a> ·
-  <a href="#project-notes">Project notes</a>
+  <a href="#notes">Notes</a>
 </p>
 
 <p align="center">
@@ -26,10 +26,28 @@ This Express API checks an address's basic syntax and looks up MX records for it
 
 ## Features
 
-- **Format check before DNS.** Missing input returns HTTP 400, and anything that fails the basic format check (text, an `@`, a domain with a dot) is rejected before any DNS lookup.
-- **Ordered MX results.** MX records are sorted by ascending priority and returned with the domain and validation flags.
-- **Expected DNS negatives.** `ENOTFOUND` and `ENODATA` return a normal negative result with an empty MX list. Other DNS errors are passed to the Express error handler.
-- **Repeatable API tests.** Jest and Supertest cover the routes and validation behavior; DNS results are mocked in tests.
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Format check before DNS</b><br>
+      Missing input returns HTTP 400, and values that fail the basic format check are rejected before any DNS lookup.
+    </td>
+    <td width="50%" valign="top">
+      <b>Ordered MX results</b><br>
+      MX records are sorted by ascending priority and returned with the domain and validation flags.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Expected DNS negatives</b><br>
+      <code>ENOTFOUND</code> and <code>ENODATA</code> return a normal negative result with an empty MX list. Other DNS errors go to the Express error handler.
+    </td>
+    <td width="50%" valign="top">
+      <b>Repeatable API tests</b><br>
+      Jest and Supertest cover the routes and validation behavior; tests mock DNS results.
+    </td>
+  </tr>
+</table>
 
 ## Quick start
 
@@ -57,7 +75,7 @@ The Express route in `src/api/index.js` trims and checks the query value first. 
 
 The Jest suite in `test/` uses Supertest to exercise the app. It mocks MX lookup results so test outcomes do not depend on live DNS.
 
-## Project notes
+## Notes
 
 I started this from the `express-api-starter` template and built the verifier on top of it; the template's `/api/emojis` example route is still there. It runs locally; there is no hosted instance. The format check is deliberately basic, and an MX record only means the domain accepts mail, not that a particular mailbox exists.
 
